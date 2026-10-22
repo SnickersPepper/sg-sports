@@ -1,0 +1,52 @@
+{
+  "source": "https://www.fcbarcelona.com/en/football/first-team/schedule",
+  "checked_at": 1788875760,
+  "refresh_mode": "manual_verified_snapshot",
+  "max_age_seconds": 259200,
+  "fixtures": [
+    {
+      "id": "fc-barcelona-2026-09-09",
+      "team_id": "fc-barcelona",
+      "sport": "football",
+      "squad": "men-first-team",
+      "opponent": "Feyenoord",
+      "competition": "UEFA Champions League",
+      "home": true,
+      "kickoff": 1788972300,
+      "kickoff_iso": "2026-09-09T18:45:00+02:00"
+    },
+    {
+      "id": "fc-barcelona-2026-09-13",
+      "team_id": "fc-barcelona",
+      "sport": "football",
+      "squad": "men-first-team",
+      "opponent": "Levante",
+      "competition": "La Liga",
+      "home": false,
+      "kickoff": 1789308900,
+      "kickoff_iso": "2026-09-13T16:15:00+02:00"
+    },
+    {
+      "id": "fc-barcelona-2026-09-16",
+      "team_id": "fc-barcelona",
+      "sport": "football",
+      "squad": "men-first-team",
+      "opponent": "Racing de Santander",
+      "competition": "La Liga",
+      "home": true,
+      "kickoff": 1789587000,
+      "kickoff_iso": "2026-09-16T21:30:00+02:00"
+    },
+    {
+      "id": "fc-barcelona-2026-09-19",
+      "team_id": "fc-barcelona",
+      "sport": "football",
+      "squad": "men-first-team",
+      "opponent": "Sevilla",
+      "competition": "La Liga",
+      "home": false,
+      "kickoff": 1789844400,
+      "kickoff_iso": "2026-09-19T21:00:00+02:00"
+    }
+  ]
+}

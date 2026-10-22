@@ -1,0 +1,62 @@
+{
+ "teams": [
+  {"id": "aguilas-del-zulia", "name": "Águilas del Zulia", "aliases": ["Aguilas del Zulia", "Aguilas", "Águilas", "Zulia", "Aguilas Zulia", "Águilas Zulia", "Maracaibo"]},
+  {"id": "bravos-de-margarita", "name": "Bravos de Margarita", "aliases": ["Bravos", "Margarita", "Bravos Margarita"]},
+  {"id": "cardenales-de-lara", "name": "Cardenales de Lara", "aliases": ["Cardenales", "Lara", "Cardenales Lara"]},
+  {"id": "caribes-de-anzoategui", "name": "Caribes de Anzoátegui", "aliases": ["Caribes de Anzoategui", "Caribes", "Anzoategui", "Anzoátegui", "Caribes Anzoategui"]},
+  {"id": "leones-del-caracas", "name": "Leones del Caracas", "aliases": ["Leones", "Caracas", "Leones Caracas"]},
+  {"id": "navegantes-del-magallanes", "name": "Navegantes del Magallanes", "aliases": ["Navegantes", "Magallanes", "Navegantes Magallanes"]},
+  {"id": "tigres-de-aragua", "name": "Tigres de Aragua", "aliases": ["Tigres", "Aragua", "Tigres Aragua"]},
+  {"id": "tiburones-de-la-guaira", "name": "Tiburones de La Guaira", "aliases": ["Tiburones", "La Guaira", "Guaira", "Tiburones La Guaira"]}
+ ],
+ "broadcasters": [
+  {"id": "meridiano", "name": "Meridiano TV", "linear": true, "aliases": ["Meridiano", "Meridiano TV", "Meridiano Television", "Meridiano HD"]},
+  {"id": "ivc", "name": "IVC Networks", "linear": true, "aliases": ["IVC", "IVC Networks", "IVC Network", "Instituto Venezolano de Comunicaciones"]},
+  {"id": "televen", "name": "Televen", "linear": true, "aliases": ["Televen", "Televen HD", "Televen TV"]},
+  {"id": "venevision", "name": "Venevisión", "linear": true, "aliases": ["Venevision", "Venevisión", "Venevision HD", "Venevisión HD"]},
+  {"id": "tves", "name": "TVES", "linear": true, "aliases": ["TVES", "TVES HD"]},
+  {"id": "canal-i", "name": "Canal i", "linear": true, "aliases": ["Canal i", "Canal I", "CanalI", "Canal i HD"]},
+  {"id": "bym-sport", "name": "ByM Sport", "linear": true, "aliases": ["ByM Sport", "ByM Sports", "BYM Sport"]},
+  {"id": "1baseball-network", "name": "1Baseball Network", "linear": false, "aliases": ["1Baseball Network", "1Baseball", "1BN"]},
+  {"id": "lvbp-youtube", "name": "LVBP YouTube", "linear": false, "aliases": ["LVBP YouTube", "LVBP Youtube"]},
+  {"id": "beisbolplay", "name": "BeisbolPlay", "linear": false, "generic_service": true, "aliases": ["BeisbolPlay", "beisbolplay.com", "BeisbolPlay.com"]}
+ ],
+ "channels": [
+  {"broadcaster": "meridiano", "provider": "providera", "stream_id": "309879", "guide_ids": [], "variant": "latin", "enabled": true},
+  {"broadcaster": "meridiano", "provider": "providera", "stream_id": "232440", "guide_ids": [], "variant": "ve", "enabled": true},
+  {"broadcaster": "meridiano", "provider": "providerb", "stream_id": "264832", "guide_ids": [], "variant": "lat", "enabled": true},
+  {"broadcaster": "ivc", "provider": "providera", "stream_id": "73457", "guide_ids": [], "variant": "venezuela", "enabled": true},
+  {"broadcaster": "ivc", "provider": "providera", "stream_id": "309877", "guide_ids": [], "variant": "latin", "enabled": true},
+  {"broadcaster": "ivc", "provider": "providerb", "stream_id": "1149038", "guide_ids": [], "variant": "lat", "enabled": true},
+  {"broadcaster": "televen", "provider": "providera", "stream_id": "232442", "guide_ids": [], "variant": "ve", "enabled": true},
+  {"broadcaster": "televen", "provider": "providera", "stream_id": "73464", "guide_ids": [], "variant": "venezuela", "enabled": true},
+  {"broadcaster": "televen", "provider": "providerb", "stream_id": "1134438", "guide_ids": ["Televen.ve"], "variant": "lat", "enabled": true},
+  {"broadcaster": "venevision", "provider": "providera", "stream_id": "73461", "guide_ids": [], "variant": "venezuela", "enabled": true},
+  {"broadcaster": "venevision", "provider": "providera", "stream_id": "232444", "guide_ids": [], "variant": "ve-hd", "enabled": true},
+  {"broadcaster": "venevision", "provider": "providerb", "stream_id": "1134422", "guide_ids": [], "variant": "lat", "enabled": true},
+  {"broadcaster": "tves", "provider": "providera", "stream_id": "73454", "guide_ids": [], "variant": "venezuela", "enabled": true},
+  {"broadcaster": "tves", "provider": "providera", "stream_id": "232451", "guide_ids": [], "variant": "ve", "enabled": true},
+  {"broadcaster": "tves", "provider": "providerb", "stream_id": "1192277", "guide_ids": [], "variant": "lat", "enabled": true},
+  {"broadcaster": "canal-i", "provider": "providera", "stream_id": "73469", "guide_ids": [], "variant": "venezuela", "enabled": true},
+  {"broadcaster": "canal-i", "provider": "providerb", "stream_id": "1149041", "guide_ids": [], "variant": "lat", "enabled": true}
+ ],
+ "observations": [
+  {"provider": "providera", "stream_id": "309879", "result": "ok", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providera", "stream_id": "73457", "result": "ok", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providera", "stream_id": "232442", "result": "ok", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providera", "stream_id": "73461", "result": "ok", "observed_at": 1792081800, "ttl": 21600},
+  {"provider": "providera", "stream_id": "73454", "result": "ok", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providera", "stream_id": "73469", "result": "ok", "observed_at": 1792081800, "ttl": 21600},
+  {"provider": "providera", "stream_id": "232440", "result": "timeout", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providera", "stream_id": "309877", "result": "timeout", "observed_at": 1792081799, "ttl": 21600},
+  {"provider": "providera", "stream_id": "73464", "result": "redirect_not_allowed", "observed_at": 1792081799, "ttl": 21600},
+  {"provider": "providera", "stream_id": "232444", "result": "timeout", "observed_at": 1792081799, "ttl": 21600},
+  {"provider": "providera", "stream_id": "232451", "result": "timeout", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "1134422", "result": "ok", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "264832", "result": "http_407", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "1149038", "result": "http_407", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "1134438", "result": "http_407", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "1192277", "result": "http_407", "observed_at": 1792081950, "ttl": 21600},
+  {"provider": "providerb", "stream_id": "1149041", "result": "http_407", "observed_at": 1792081950, "ttl": 21600}
+ ]
+}

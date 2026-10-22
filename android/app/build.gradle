@@ -1,0 +1,55 @@
+plugins { id 'com.android.application'; id 'org.jetbrains.kotlin.android'; id 'org.jetbrains.kotlin.plugin.compose' }
+android {
+ namespace 'com.sgsports.tv'
+ compileSdk 35
+ buildToolsVersion "35.0.0"
+ defaultConfig { applicationId 'com.sgsports.tv.v2'; testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'; minSdk 24; targetSdk 35; versionCode 27; versionName '0.8.9' }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+ buildFeatures { compose true; buildConfig true }
+ // Debug builds use a local test keystore when one exists (otherwise the Android default debug key). The public release is signed only from protected environment values; see docs/RELEASE-SIGNING.md.
+ signingConfigs {
+  if (file('../../.paperclip/private/livingroom-debug.keystore').exists()) { debug { storeFile file('../../.paperclip/private/livingroom-debug.keystore') } }
+  if (System.getenv('SG_RELEASE_KEYSTORE')) {
+   release { storeFile file(System.getenv('SG_RELEASE_KEYSTORE')); storePassword System.getenv('SG_RELEASE_STORE_PASSWORD'); keyAlias System.getenv('SG_RELEASE_KEY_ALIAS'); keyPassword System.getenv('SG_RELEASE_KEY_PASSWORD') }
+  }
+ }
+ buildTypes { release { if (System.getenv('SG_RELEASE_KEYSTORE')) signingConfig signingConfigs.release; minifyEnabled false } }
+ flavorDimensions 'environment'
+ productFlavors {
+  // Neutral public flavor: no built-in backend, DNS override, certificate authority or source name. The user enters a backend address on first launch.
+  neutral { dimension 'environment'; applicationIdSuffix '.open'; versionCode 100; versionName '1.0.0'; buildConfigField 'String', 'SERVER_URL', '""'; buildConfigField 'String', 'DNS_OVERRIDES', '""'; buildConfigField 'boolean', 'DESIGN_MODE', 'false'; buildConfigField 'String', 'RELEASE_CHANNEL', '"release"' }
+  design { dimension 'environment'; applicationIdSuffix '.design'; versionNameSuffix '-design'; buildConfigField 'String', 'SERVER_URL', '"https://offline.invalid"'; buildConfigField 'String', 'DNS_OVERRIDES', '""'; buildConfigField 'boolean', 'DESIGN_MODE', 'true'; buildConfigField 'String', 'RELEASE_CHANNEL', '"design"' }
+ }
+ kotlinOptions { jvmTarget = '17' }
+ lint { abortOnError true }
+}
+dependencies {
+ implementation platform('androidx.compose:compose-bom:2024.12.01')
+ implementation 'androidx.activity:activity-compose:1.9.3'
+ implementation 'androidx.compose.foundation:foundation'
+ implementation 'androidx.compose.material3:material3'
+ implementation 'androidx.compose.ui:ui-tooling-preview'
+ debugImplementation 'androidx.compose.ui:ui-tooling'
+ testImplementation 'junit:junit:4.13.2'
+ testImplementation 'org.json:json:20240303'
+ androidTestImplementation 'androidx.test:runner:1.6.2'
+ androidTestImplementation platform('androidx.compose:compose-bom:2024.12.01')
+ androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+ debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+ implementation 'androidx.media3:media3-exoplayer:1.8.0'
+ implementation 'androidx.media3:media3-ui:1.8.0'
+ implementation 'androidx.media3:media3-datasource-okhttp:1.8.0'
+ implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
+
+// Keep live builds opt-in so the living-room application remains isolated.
+def enableLiveBuild = providers.gradleProperty("enableLiveBuild").orElse("false")
+androidComponents { beforeVariants(selector().all()) { variant ->
+ def neutralOnly = providers.gradleProperty("enableNeutralBuild").orElse("false").get().toBoolean()
+ if (variant.flavorName == "neutral") { if (!neutralOnly) variant.enable = false }
+ else if (neutralOnly || (!enableLiveBuild.get().toBoolean() && (variant.flavorName != "design" || variant.buildType != "debug"))) variant.enable = false
+} }
+
+// Optional maintainer-only test flavors; absent from the public tree.
+if (file('private-flavors.gradle').exists()) apply from: 'private-flavors.gradle'

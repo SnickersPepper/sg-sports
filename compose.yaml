@@ -1,0 +1,40 @@
+# SG Sports backend. Quick start: see README.md.
+#   docker compose up -d --build
+#   then open the root address (http://localhost:8099/) and sign in as admin / admin; you are required to choose a new password immediately
+#   lost password:  docker compose exec sgsports python adminauth.py reset   (see docs/OPERATOR-GUIDE.md)
+services:
+  sgsports:
+    build: .
+    image: sgsports-backend:local
+    restart: unless-stopped
+    ports:
+      # Bound to localhost by default. Publish to your LAN by setting SG_BIND=0.0.0.0 (see docs/OPERATOR-GUIDE.md on TLS/reverse proxy).
+      - "${SG_BIND:-127.0.0.1}:${SG_PORT:-8099}:8099"
+    environment:
+      SG_AUTO_REFRESH: "${SG_AUTO_REFRESH:-1}"
+      SG_ALLOWED_ORIGINS: "${SG_ALLOWED_ORIGINS:-}"
+      # Behind a TLS-terminating proxy, also set SG_TRUST_PROXY=1 (or SG_COOKIE_SECURE=1) so the sign-in cookie is marked Secure.
+      SG_TRUST_PROXY: "${SG_TRUST_PROXY:-}"
+      SG_COOKIE_SECURE: "${SG_COOKIE_SECURE:-}"
+      # Upgrading from a token-based release? Keep your old token available (secrets/api_token or SG_ADMIN_TOKEN_FILE) once, for the one-time
+      # "Move to a username and password" screen at the root address; see docs/OPERATOR-GUIDE.md.
+    volumes:
+      - sgsports-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 256
+    mem_limit: 1g
+    cpus: 2.0
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8099/health',timeout=2)"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  sgsports-data:
+

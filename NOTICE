@@ -1,0 +1,8 @@
+SG Sports
+Copyright 2026 SG Sports contributors
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party team, league and club artwork is not part of this distribution; it is fetched at runtime
+only if an operator enables an artwork source (docs/TEAM-ARTWORK.md). Trademarks belong to their owners.
+The launcher icon was created by the project owner and is released under the same licence.

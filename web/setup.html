@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SG Sports administration</title>
+<link rel="stylesheet" href="/setup.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><h1>SG Sports administration</h1><p>Set up and manage this backend: sign-in, TV pairing, IPTV sources, favorites and backups. Secrets are write-only: they are stored by the backend and never shown again. The TV app shows your games; this page is only for configuration.</p>
+<nav id="nav" aria-label="Configuration sections" hidden><a href="#home-h">Home</a> <a href="#ac-h">Security</a> <a href="#dv-h">TV pairing</a> <a href="#src-h">Sources</a> <a href="#gd-h">Guide</a> <a href="#dp-h">Dispatcharr</a> <a href="#fav-h">Favorites</a> <a href="#st-h">DVR and storage</a> <a href="#art-h">Artwork</a> <a href="#bk-h">Backup</a> <a href="#dg-h">Diagnostics</a></nav></header>
+<main id="main" tabindex="-1">
+<div id="status" role="status" aria-live="polite" tabindex="-1"></div>
+<ul id="errors" aria-live="assertive"></ul>
+
+<section id="signin" aria-labelledby="signin-h">
+<h2 id="signin-h" tabindex="-1">Sign in</h2>
+<p class="hint">A new installation starts with the username <code>admin</code> and the password <code>admin</code>. You will be asked to choose a new password straight away. Nothing else is available until you do.</p>
+<form id="signin-form"><label>Username <input id="si-user" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+<label>Password <input id="si-pass" type="password" autocomplete="current-password" required></label><button type="submit">Sign in</button></form>
+</section>
+
+<section id="migrate" aria-labelledby="migrate-h" hidden>
+<h2 id="migrate-h" tabindex="-1">Move to a username and password</h2>
+<p>This server was set up with an administrator access token. Enter that token once, and choose the username and password you will use from now on. The old token stops working afterwards.</p>
+<form id="migrate-form"><label>Existing administrator token <input id="mg-token" type="password" autocomplete="off" required></label>
+<label>New username <input id="mg-user" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+<label>New password (at least 10 characters) <input id="mg-pass" type="password" autocomplete="new-password" minlength="10" required></label>
+<label>Repeat the password <input id="mg-pass2" type="password" autocomplete="new-password" minlength="10" required></label><button type="submit">Save and sign in</button></form>
+</section>
+
+<section id="account" aria-labelledby="account-h" hidden>
+<h2 id="account-h" tabindex="-1">Administrator account</h2>
+<p id="force-note" class="warn" hidden>You signed in with the starting password. Choose a new password now; setup stays locked until you do.</p>
+<p>Signed in as <strong id="whoami"></strong>. <button type="button" id="signout">Sign out</button></p>
+<form id="credentials-form"><label>Current password <input id="ac-current" type="password" autocomplete="current-password" required></label>
+<label>New password (at least 10 characters) <input id="ac-new" type="password" autocomplete="new-password" minlength="10"></label>
+<label>Repeat the new password <input id="ac-new2" type="password" autocomplete="new-password" minlength="10"></label>
+<label>New username (optional) <input id="ac-user" autocomplete="username" autocapitalize="none" spellcheck="false"></label><button type="submit">Save changes</button></form>
+</section>
+
+<div id="app" hidden>
+<section aria-labelledby="home-h" id="home"><h2 id="home-h" tabindex="-1">Configuration home</h2>
+<p id="home-summary" class="ready-banner" role="status"></p>
+<ol id="home-list" class="items steps"></ol>
+<p class="hint">Required steps are marked <strong>Required</strong>. Everything else is optional and can be skipped or changed later; nothing here needs a source edit or a new app build.</p>
+</section>
+<section aria-labelledby="progress-h"><h2 id="progress-h">Setup progress</h2>
+<table id="progress"><caption class="sr">Per-source setup states</caption><thead><tr><th>Source</th><th>Configured</th><th>Catalog imported</th><th>Guide mapped</th><th>Transport tested</th><th>Game confirmed</th><th>Budget</th></tr></thead><tbody></tbody></table>
+<p id="unresolved" class="warn" hidden></p>
+<p class="hint">Catalog import, transport test and game confirmation are separate steps that run later; configuring a source never opens playback or a recording.</p>
+<p><button type="button" id="skip">Skip the rest for now</button> <span id="skipped" class="hint"></span></p>
+</section>
+
+<section aria-labelledby="src-h" id="sources-section"><h2 id="src-h">IPTV playlist sources</h2>
+<p class="hint"><strong>Required</strong> for live channels: at least one playlist. Use the IPTVBoss export, a direct M3U/M3U8 link or file, or an Xtream-style login. Test connection reads the playlist once and never starts a stream.</p>
+<div class="prominent"><h3>IPTVBoss export (recommended path)</h3><p>Use the generated M3U playlist and XMLTV guide that IPTVBoss produces. Add them below with the kind "IPTVBoss export"; a merged export must be mapped to every underlying account.</p>
+<button type="button" data-new-source="iptvboss_export">Add IPTVBoss export</button></div>
+<p><button type="button" data-new-source="m3u">Add M3U playlist</button> <button type="button" data-new-source="xtream">Add Xtream-style source</button></p>
+<ul id="source-list" class="items"></ul>
+<form id="source-form" hidden><h3 id="source-title">Source</h3><input type="hidden" id="s-id">
+<label>Name <input id="s-name" required maxlength="80"></label>
+<label>Kind <select id="s-kind"><option value="iptvboss_export">IPTVBoss export</option><option value="m3u">Direct M3U</option><option value="xtream">Xtream-style</option></select></label>
+<div id="s-loc"><label>Location type <select id="s-loctype"><option value="url">URL</option><option value="file">File in the import directory</option></select></label>
+<label>Location <input id="s-location" type="password" autocomplete="off"></label><p class="hint" id="s-lochint">Write-only. Leave blank to keep the stored value.</p>
+<label>Format <select id="s-format"><option value="">Unspecified</option><option value="m3u">M3U</option><option value="m3u8">M3U8</option></select></label></div>
+<label>Underlying account <select id="s-account"></select></label>
+<label class="check"><input type="checkbox" id="s-merged"> This export merges several upstream accounts</label>
+<label class="check"><input type="checkbox" id="s-dispatcharr"> This playlist is a Dispatcharr standard output (no Dispatcharr API key needed)</label>
+<label id="s-more-wrap">All underlying accounts (hold Ctrl/Cmd to select several) <select id="s-accounts" multiple size="4"></select></label>
+<div class="row"><button type="submit">Save source</button><button type="button" data-cancel>Cancel</button></div></form>
+</section>
+
+<section aria-labelledby="gd-h"><h2 id="gd-h">Guide sources (XMLTV)</h2>
+<p class="hint">Recommended. XMLTV is program-guide data, not a video subscription. Test connection reads the guide once and counts its channels.</p>
+<ul id="guide-list" class="items"></ul><p><button type="button" id="new-guide">Add XMLTV guide</button></p>
+<form id="guide-form" hidden><h3>Guide source</h3><input type="hidden" id="g-id">
+<label>Name <input id="g-name" required maxlength="80"></label>
+<label>Location type <select id="g-loctype"><option value="url">URL</option><option value="file">File in the import directory</option></select></label>
+<label>Location <input id="g-location" type="password" autocomplete="off"></label>
+<label>Format <select id="g-format"><option value="">Unspecified</option><option value="xml">XML</option><option value="xml.gz">XML.GZ</option></select></label>
+<div class="row"><button type="submit">Save guide</button><button type="button" data-cancel>Cancel</button></div></form>
+</section>
+
+<section aria-labelledby="ac-h"><h2 id="ac-h">Provider accounts and connection budgets</h2>
+<p class="hint">One entry per real subscription. Sources that share an account share its connection limit.</p>
+<ul id="account-list" class="items"></ul><p><button type="button" id="new-account">Add account</button></p>
+<form id="account-form" hidden><h3>Account</h3><input type="hidden" id="a-id">
+<label>Name <input id="a-name" required maxlength="80"></label>
+<label>Maximum simultaneous connections <input id="a-max" type="number" min="1" max="100" value="1" required></label>
+<fieldset><legend>Xtream-style login (write-only, optional)</legend>
+<label>Server URL <input id="a-host" type="password" autocomplete="off"></label><label>Username <input id="a-user" type="password" autocomplete="off"></label><label>Password <input id="a-pass" type="password" autocomplete="new-password"></label></fieldset>
+<div class="row"><button type="submit">Save account</button><button type="button" data-cancel>Cancel</button></div></form>
+</section>
+
+<section aria-labelledby="dp-h" id="dispatcharr-section"><h2 id="dp-h">IPTVBoss and Dispatcharr (optional)</h2>
+<p class="hint">Optional. Direct M3U, XMLTV, Xtream-style and IPTVBoss sources work without it. A Dispatcharr playlist plus its matching guide can be added as a normal source with no API key. Connecting its read-only management API adds version, capability and health information only. Importing a playlist or reading its API never proves who holds your provider connection limit.</p>
+<ul id="dp-list" class="items"></ul><p id="dp-empty" class="hint" hidden>No Dispatcharr is connected.</p>
+<p><button type="button" id="dp-new">Connect Dispatcharr</button> <button type="button" id="dp-std">Add Dispatcharr standard-output source</button></p>
+<form id="dp-form" hidden><h3 id="dp-title">Dispatcharr connection</h3><input type="hidden" id="dp-id">
+<label>Name <input id="dp-name" required maxlength="80"></label>
+<label>Base address <input id="dp-url" type="password" autocomplete="off"></label>
+<label>Dedicated API key <input id="dp-key" type="password" autocomplete="new-password"></label>
+<label>Authentication header <select id="dp-auth"><option value="x-api-key">X-API-Key</option><option value="authorization-apikey">Authorization: ApiKey</option></select></label>
+<p class="hint">Write-only. Leave blank to keep the stored value. Use a key created for SG Sports; the address and key never leave the backend.</p>
+<div class="row"><button type="submit">Save connection</button><button type="button" data-cancel>Cancel</button></div></form>
+<h3>Delivery routes</h3><p class="hint">Only one route may be active for a subscription account. Switching is previewed first, never copies a connection allowance and can be rolled back.</p>
+<ul id="route-list" class="items"></ul><p id="route-empty" class="hint" hidden>No delivery routes are configured.</p>
+<div id="sw-plan" hidden><h3>Staged switch</h3><ul id="sw-detail"></ul><div class="row"><button type="button" id="sw-commit">Apply switch</button><button type="button" id="sw-cancel">Cancel</button></div></div>
+<ul id="sw-history" class="items"></ul>
+</section>
+
+<section aria-labelledby="art-h" id="artwork-section"><h2 id="art-h">Artwork (optional)</h2>
+<p class="hint">This release ships no team or league logos. Your backend fetches them for you, keeps them in its data volume and serves them to your paired TVs; a team without a logo shows a colour monogram. Retrieval at runtime is not a licence to redistribute the images, so nothing here is copied into the app or the repository.</p>
+<form id="art-form"><label>Logo source <select id="art-mode"><option value="off">None (colour monograms only; default)</option><option value="url">My own web server</option><option value="pack">A logo pack in the data volume</option><option value="espn">ESPN public sports metadata (opt-in)</option></select></label>
+<label id="art-ack-wrap" class="check" hidden><input type="checkbox" id="art-ack"> I have read ESPN's terms and choose to have my own backend fetch logos from ESPN. SG Sports does not bundle or redistribute them.</label>
+<label id="art-url-wrap" hidden>Base address <input id="art-url" type="password" autocomplete="off"></label>
+<p class="hint" id="art-hint"></p>
+<div class="row"><button type="submit">Save logo source</button><button type="button" id="art-sync">Fetch / refresh logos now</button><button type="button" id="art-clear">Clear cached logos</button></div></form>
+<p id="art-state" class="hint"></p><p id="art-terms" class="hint"></p><ul id="art-entries" class="items"></ul>
+</section>
+
+<section aria-labelledby="fav-h"><h2 id="fav-h">Profiles and favorite teams</h2>
+<p class="hint">Favorites are catalog entries saved per profile and shared with the TV. Being selectable does not mean a schedule, live matching or recording exists for that team; the note beside each entry says what is supported today.</p>
+<label>Profile <select id="f-profile"></select></label>
+<ol id="fav-list" class="items"></ol><p id="fav-empty" class="hint" hidden>No favorite teams. Add one below, or leave it empty.</p>
+<label>Add a team <select id="f-add"></select></label>
+<div class="row"><button type="button" id="f-add-btn">Add team</button><button type="button" id="f-save">Save favorites</button><button type="button" id="f-discard">Discard changes</button></div>
+<p id="f-note" class="hint"></p>
+</section>
+
+<section aria-labelledby="dv-h"><h2 id="dv-h">Server identity and TV pairing</h2>
+<p class="hint"><strong>Required</strong>: pair at least one TV. Open the SG Sports TV app, enter this server's address (<strong id="server-address"></strong>), then enter the code from the button below on the TV. You never type the administrator password on the TV.</p>
+<p><button type="button" id="pair-tv">Create a TV pairing code</button> <span id="pair-code" class="hint"></span></p>
+<p class="hint">Each TV uses the preferences of the profile it is assigned to. Revoking removes the pairing; the TV must be paired again with a new code. No pairing token is ever shown here.</p>
+<ul id="device-list" class="items"></ul><p id="device-empty" class="hint" hidden>No TV is paired yet.</p>
+</section>
+
+<section aria-labelledby="st-h" id="storage-section"><h2 id="st-h">DVR (Jellyfin) and storage</h2>
+<p class="hint">Optional. Recording through Jellyfin is switched on in the server's environment (see the operator guide), not here. This is a read-only status.</p>
+<p id="storage-state"></p></section>
+
+<section aria-labelledby="bk-h"><h2 id="bk-h">Backup, restore, import and export</h2>
+<p><button type="button" id="export">Download redacted export</button> <span class="hint">Contains references and placeholders only, never secret values.</span></p>
+<form id="restore-form"><label>Redacted export file <input id="r-file" type="file" accept="application/json,.json"></label>
+<label>Secret values (JSON object keyed section/id/field) <textarea id="r-secrets" rows="4" autocomplete="off" spellcheck="false"></textarea></label>
+<p id="r-need" class="hint"></p><button type="submit">Validate and restore</button></form>
+<p class="hint">Restore is all-or-nothing: any problem keeps the current configuration unchanged. Paired TVs are never replaced.</p>
+</section>
+<section aria-labelledby="dg-h" id="diag-section"><h2 id="dg-h">Diagnostics and update information</h2>
+<p id="diag-state" class="hint">Sign in to see version and health.</p><p><button type="button" id="diag-refresh">Refresh diagnostics</button></p></section>
+</div>
+</main>
+<script src="/prefs-logic.js"></script>
+<script src="/setup.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "providera",
+    "name": "Provider A",
+    "type": "xtream",
+    "max_connections": 1,
+    "hosts": ["http://provider-a.example.invalid", "http://provider-a-backup.example.invalid"]
+  },
+  {
+    "id": "providerb",
+    "name": "Provider B",
+    "type": "xtream",
+    "max_connections": 1,
+    "hosts": ["http://provider-b.example.invalid"]
+  }
+]

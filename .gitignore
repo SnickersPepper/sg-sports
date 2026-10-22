@@ -1,0 +1,21 @@
+.dev/
+.gradle/
+**/.gradle/
+**/build/
+**/__pycache__/
+**/.DS_Store
+android/local.properties
+.local-test/
+data/
+secrets/
+*.jks
+*.keystore
+
+# Protected Paperclip-local signing material
+.paperclip/private/*.keystore
+
+# Operator-private overrides (never published)
+private/
+
+# Operator-owned fixed-job queues
+.compose-clean-install-queue/

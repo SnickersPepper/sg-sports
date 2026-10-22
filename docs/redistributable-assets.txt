@@ -1,0 +1,4 @@
+# One repo-relative path per line: artwork whose redistribution has been confirmed.
+# The public tree bundles no third-party team, league or club artwork; those images are fetched at runtime by each installation (docs/LICENSING-AUDIT.md).
+# Project-owned mark (drawn for this project; the maintainer confirms the licence when choosing the project licence):
+android/app/src/main/assets/logos/sgsports.png
