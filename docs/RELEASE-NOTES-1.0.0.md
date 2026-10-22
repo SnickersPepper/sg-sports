@@ -1,4 +1,4 @@
-# SG Sports 1.0.0 — release notes (draft, unpublished)
+# SG Sports 1.0.0 — release notes (published)
 
 ## TV app (sideload)
 
@@ -19,6 +19,6 @@ Verify: `sha256sum -c SHA256SUMS`, then `apksigner verify --print-certs sgsports
 - Team artwork is fetched at runtime by your own backend (docs/TEAM-ARTWORK.md); the monogram fallback is unit-tested but was not shown on the emulator.
 - Not distributed through Google Play.
 
-## Open before publication (owner decisions)
+## Licence and provenance
 
-Licence: Apache-2.0. ESPN artwork is opt-in (off by default). Launcher icon authored by the project owner. Release signing key backup verified offline by the owner. Publication to the public repository follows independent review of the final diff.
+Licence: Apache-2.0. ESPN artwork is opt-in (off by default). Launcher icon authored by the project owner. Release signing key backup verified offline by the owner. Published 2026-10-22 as release v1.0.0 of SnickersPepper/sg-sports, exported from reviewed source 0cf9883 as a fresh public history.

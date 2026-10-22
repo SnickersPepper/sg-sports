@@ -1,4 +1,4 @@
-# Release manifest — 1.0.0 (post-SGH-314, unpublished)
+# Release manifest — 1.0.0 (post-SGH-314, published as v1.0.0)
 
 | Item | Value |
 |---|---|
